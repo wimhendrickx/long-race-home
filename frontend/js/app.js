@@ -33,10 +33,18 @@
 
     var clearSelection = function() {
         vizlayers[1].getSubLayer(0).set({"sql": "SELECT * FROM " + riderTableName});
+        vizlayers[1].getSubLayer(1).set(
+            {
+                "sql": "SELECT ST_MakeLine (the_geom_webmercator ORDER BY date_time ASC) AS the_geom_webmercator, " + nameField + " FROM " + riderTableName + " GROUP BY " + nameField
+            });
     };
 
     var loadRider = function() {
         vizlayers[1].getSubLayer(0).set({"sql": "SELECT * FROM " + riderTableName + " WHERE " + nameField + "='" + selectedRider[nameField] + "'"});
+        vizlayers[1].getSubLayer(1).set(
+            {"sql": "SELECT ST_MakeLine (the_geom_webmercator ORDER BY date_time ASC) AS the_geom_webmercator, " + nameField + " FROM " +
+        riderTableName + " WHERE " + nameField + "='" + selectedRider[nameField] + "' GROUP BY " + nameField
+        });
     };
 
 
